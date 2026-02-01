@@ -1,0 +1,91 @@
+# Laravel Framework
+/.phpunit.cache
+/bootstrap/ssr
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/resources/js/actions
+/resources/js/routes
+/resources/js/wayfinder
+/vendor
+
+# Environment Files
+.env
+.env.backup
+.env.production
+.env.local
+.env.testing
+
+# IDE & Editor Files
+.DS_Store
+.phpactor.json
+.phpunit.result.cache
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+*.sublime-project
+*.sublime-workspace
+.project
+.settings
+.buildpath
+
+# Logs
+npm-debug.log
+yarn-error.log
+*.log
+
+# Laravel Homestead
+Homestead.json
+Homestead.yaml
+Homestead.yml
+.vagrant
+
+# Project-Specific: Uploaded Files
+/storage/app/public/products/**
+/storage/app/public/categories/**
+/storage/app/public/brands/**
+/storage/app/public/leagues/**
+/storage/app/public/teams/**
+/storage/app/public/reviews/**
+/storage/app/public/payment-proofs/**
+/storage/app/public/users/**
+
+# Keep .gitkeep files in empty directories
+!**/.gitkeep
+
+# Database Backups
+/database/backups/**
+*.sql
+*.sql.gz
+
+# Temporary Files
+*.tmp
+*.temp
+*.cache
+*.swp
+*~
+
+# OS Generated Files
+Thumbs.db
+Desktop.ini
+
+# Testing
+/coverage
+/.coverage
+/.phpunit.cache
+
+# Build artifacts
+/dist
+/build
+
+# Package Manager
+composer.phar
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

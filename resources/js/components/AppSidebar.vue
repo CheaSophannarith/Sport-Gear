@@ -13,14 +13,16 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
+
+// Temporary dashboard route until routes are regenerated
+const dashboardRoute = '/admin/dashboard';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboardRoute,
         icon: LayoutGrid,
     },
 ];
@@ -45,7 +47,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
+                        <Link :href="dashboardRoute">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>

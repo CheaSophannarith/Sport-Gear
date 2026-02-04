@@ -17,8 +17,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->unique()->nullable();
+            $table->string('avatar')->nullable();
+            $table->enum('loyalty_tier', ['none', 'silver', 'gold'])->default('none');
+            $table->decimal('total_spent', 10, 2)->default(0.00);
             $table->rememberToken();
             $table->timestamps();
+
+            // Indexes for performance
+            $table->index('phone');
+            $table->index('loyalty_tier');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

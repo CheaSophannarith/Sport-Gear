@@ -24,10 +24,16 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
         ]);
+
+        // Web interface registration = admin role
+        // API registration (to be implemented) = customer role
+        $user->assignRole('admin');
+
+        return $user;
     }
 }

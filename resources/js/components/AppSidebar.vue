@@ -1,49 +1,69 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Tags } from 'lucide-vue-next';
-import NavFooter from '@/components/NavFooter.vue';
-import NavMain from '@/components/NavMain.vue';
-import NavUser from '@/components/NavUser.vue';
-import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import AppLogo from './AppLogo.vue';
+    import { Link } from '@inertiajs/vue3';
+    import { Award, BookOpen, Folder, Layers, LayoutGrid, Shield, Tags, Trophy } from 'lucide-vue-next';
+    import NavFooter from '@/components/NavFooter.vue';
+    import NavMain from '@/components/NavMain.vue';
+    import NavUser from '@/components/NavUser.vue';
+    import {
+        Sidebar,
+        SidebarContent,
+        SidebarFooter,
+        SidebarHeader,
+        SidebarMenu,
+        SidebarMenuButton,
+        SidebarMenuItem,
+    } from '@/components/ui/sidebar';
+    import { type NavItem } from '@/types';
+    import AppLogo from './AppLogo.vue';
 
-// Temporary dashboard route until routes are regenerated
-const dashboardRoute = '/admin/dashboard';
+    // Temporary dashboard route until routes are regenerated
+    const dashboardRoute = '/admin/dashboard';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboardRoute,
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Categories',
-        href: '/admin/categories',
-        icon: Tags,
-    },
-];
+    const mainNavItems: NavItem[] = [
+        {
+            title: 'Dashboard',
+            href: dashboardRoute,
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Categories',
+            href: '/admin/categories',
+            icon: Tags,
+        },
+        {
+            title: 'Brands',
+            href: '/admin/brands',
+            icon: Award,
+        },
+        {
+            title: 'Leagues',
+            href: '/admin/leagues',
+            icon: Trophy,
+        },
+        {
+            title: 'Teams',
+            href: '/admin/teams',
+            icon: Shield,
+        },
+        {
+            title: 'Surface Types',
+            href: '/admin/surface-types',
+            icon: Layers,
+        },
+    ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
-];
+    const footerNavItems: NavItem[] = [
+        {
+            title: 'Github Repo',
+            href: 'https://github.com/laravel/vue-starter-kit',
+            icon: Folder,
+        },
+        {
+            title: 'Documentation',
+            href: 'https://laravel.com/docs/starter-kits#vue',
+            icon: BookOpen,
+        },
+    ];
 </script>
 
 <template>

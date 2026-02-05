@@ -31,6 +31,7 @@
         slug: string;
         description: string | null;
         image: string | null;
+        image_url: string | null;
         sort_order: number;
         is_active: boolean;
         created_at: string;
@@ -99,8 +100,8 @@
                             <TableBody>
                                 <TableRow v-for="category in props.categories.data" :key="category.id">
                                     <TableCell>
-                                        <div v-if="category.image" class="h-12 w-12 overflow-hidden rounded">
-                                            <img :src="`/storage/${category.image}`" :alt="category.name"
+                                        <div v-if="category.image_url" class="h-12 w-12 overflow-hidden rounded">
+                                            <img :src="category.image_url" :alt="category.name"
                                                 class="h-full w-full object-cover" />
                                         </div>
                                         <div v-else class="flex h-12 w-12 items-center justify-center rounded bg-muted">

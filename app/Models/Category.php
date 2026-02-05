@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Category extends Model
+class Category extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+    
     protected $fillable = [
         'name',
         'slug',
         'description',
-        'image',
         'sort_order',
         'is_active',
     ];
@@ -23,6 +26,16 @@ class Category extends Model
             'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
+    }
+
+    /**
+     * Register media collections
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')
+            ->singleFile() // Only one image per category
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
     }
 
     protected static function boot()

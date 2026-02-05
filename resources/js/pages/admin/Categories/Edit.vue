@@ -18,6 +18,7 @@
         slug: string;
         description: string | null;
         image: string | null;
+        image_url: string | null;
         sort_order: number;
         is_active: boolean;
     }
@@ -53,7 +54,7 @@
     });
 
     const imagePreview = ref<string | null>(
-        props.category.image ? `/storage/${props.category.image}` : null
+        props.category.image_url || null
     );
 
     const handleImageChange = (event: Event) => {

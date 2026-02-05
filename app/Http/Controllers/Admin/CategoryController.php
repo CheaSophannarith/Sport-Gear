@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -21,9 +19,10 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->paginate(15);
 
-        // Ensure is_active is properly cast to boolean for Inertia
+        // Ensure is_active is properly cast to boolean and add media URL
         $categories->through(function ($category) {
             $category->is_active = (bool) $category->is_active;
+            $category->image_url = $category->getFirstMediaUrl('image');
             return $category;
         });
 
@@ -47,12 +46,14 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('categories', 'public');
-        }
+        // Create category without image field
+        $category = Category::create($validated);
 
-        Category::create($validated);
+        // Handle image upload with MediaLibrary
+        if ($request->hasFile('image')) {
+            $category->addMediaFromRequest('image')
+                ->toMediaCollection('image');
+        }
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category created successfully.');
@@ -63,6 +64,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $category->image_url = $category->getFirstMediaUrl('image');
+
         return Inertia::render('Admin/Categories/Show', [
             'category' => $category,
         ]);
@@ -73,8 +76,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // Ensure is_active is properly cast to boolean for Inertia
+        // Ensure is_active is properly cast to boolean and add media URL
         $category->is_active = (bool) $category->is_active;
+        $category->image_url = $category->getFirstMediaUrl('image');
 
         return Inertia::render('Admin/Categories/Edit', [
             'category' => $category,
@@ -88,19 +92,16 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete old image
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
-            }
-            $validated['image'] = $request->file('image')->store('categories', 'public');
-        } else {
-            // Remove image from validated data if no new image uploaded
-            unset($validated['image']);
-        }
-
+        // Update category without image field
         $category->update($validated);
+
+        // Handle image upload with MediaLibrary
+        if ($request->hasFile('image')) {
+            // Clear existing media and add new one (singleFile handles this automatically)
+            $category->clearMediaCollection('image');
+            $category->addMediaFromRequest('image')
+                ->toMediaCollection('image');
+        }
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully.');
@@ -111,11 +112,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // Delete image if exists
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        }
-
+        // MediaLibrary will automatically delete associated media
         $category->delete();
 
         return redirect()->route('admin.categories.index')

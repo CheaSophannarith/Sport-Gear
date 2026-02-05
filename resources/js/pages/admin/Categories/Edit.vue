@@ -2,11 +2,12 @@
     import { Head, Link, useForm } from '@inertiajs/vue3';
     import { ArrowLeft } from 'lucide-vue-next';
     import { ref } from 'vue';
+    import CategoryController from '@/actions/App/Http/Controllers/Admin/CategoryController';
     import { Button } from '@/components/ui/button';
     import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
-     import { Switch } from '@/components/ui/switch';
+    import { Switch } from '@/components/ui/switch';
     import { Textarea } from '@/components/ui/textarea';
     import AppLayout from '@/layouts/AppLayout.vue';
     import { type BreadcrumbItem } from '@/types';
@@ -34,11 +35,11 @@
         },
         {
             title: 'Categories',
-            href: '/admin/categories',
+            href: CategoryController.index.url(),
         },
         {
             title: 'Edit',
-            href: `/admin/categories/${props.category.id}/edit`,
+            href: CategoryController.edit.url(props.category.id),
         },
     ];
 
@@ -69,7 +70,7 @@
     };
 
     const submit = () => {
-        form.post(`/admin/categories/${props.category.id}`, {
+        form.post(CategoryController.update.url(props.category.id), {
             forceFormData: true,
             preserveScroll: true,
             // Laravel expects _method field for PUT request with form data
@@ -91,7 +92,7 @@
                     <div class="flex items-center justify-between">
                         <CardTitle>Edit Category: {{ category.name }}</CardTitle>
                         <Button variant="outline" as-child>
-                            <Link :href="'/admin/categories'">
+                            <Link :href="CategoryController.index.url()">
                                 <ArrowLeft class="mr-2 h-4 w-4" />
                                 Back to Categories
                             </Link>
@@ -189,7 +190,7 @@
                         <!-- Form Actions -->
                         <div class="flex justify-end gap-4 border-t pt-4">
                             <Button variant="outline" type="button" as-child>
-                                <Link :href="'/admin/categories'">Cancel</Link>
+                                <Link :href="CategoryController.index.url()">Cancel</Link>
                             </Button>
                             <Button type="submit" :disabled="form.processing">
                                 {{ form.processing ? 'Updating...' : 'Update Category' }}

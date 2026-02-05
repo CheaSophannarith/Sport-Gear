@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { Head, Link, router } from '@inertiajs/vue3';
     import { Edit, Plus, Trash2 } from 'lucide-vue-next';
+    import CategoryController from '@/actions/App/Http/Controllers/Admin/CategoryController';
     import { Badge } from '@/components/ui/badge';
     import { Button } from '@/components/ui/button';
     import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,12 +56,12 @@
         },
         {
             title: 'Categories',
-            href: '/admin/categories',
+            href: CategoryController.index.url(),
         },
     ];
 
     const deleteCategory = (id: number) => {
-        router.delete(`/admin/categories/${id}`, {
+        router.delete(CategoryController.destroy.url(id), {
             preserveScroll: true,
         });
     };
@@ -76,7 +77,7 @@
                 <CardHeader class="flex flex-row items-center justify-between space-y-0">
                     <CardTitle>Categories</CardTitle>
                     <Button as-child>
-                        <Link :href="'/admin/categories/create'">
+                        <Link :href="CategoryController.create.url()">
                             <Plus class="mr-2 h-4 w-4" />
                             Add Category
                         </Link>
@@ -123,7 +124,7 @@
                                     <TableCell class="text-right">
                                         <div class="flex justify-end gap-2">
                                             <Button variant="ghost" size="icon" as-child>
-                                                <Link :href="`/admin/categories/${category.id}/edit`">
+                                                <Link :href="CategoryController.edit.url(category.id)">
                                                     <Edit class="h-4 w-4" />
                                                 </Link>
                                             </Button>
@@ -178,12 +179,12 @@
                         </div>
                         <div class="flex gap-2">
                             <Button variant="outline" size="sm" :disabled="props.categories.current_page === 1"
-                                @click="router.get(`/admin/categories?page=${props.categories.current_page - 1}`)">
+                                @click="router.get(CategoryController.index.url({ query: { page: props.categories.current_page - 1 } }))">
                                 Previous
                             </Button>
                             <Button variant="outline" size="sm"
                                 :disabled="props.categories.current_page === props.categories.last_page"
-                                @click="router.get(`/admin/categories?page=${props.categories.current_page + 1}`)">
+                                @click="router.get(CategoryController.index.url({ query: { page: props.categories.current_page + 1 } }))">
                                 Next
                             </Button>
                         </div>

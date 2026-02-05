@@ -21,7 +21,7 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->paginate(15);
 
-        return Inertia::render('admin/Categories/Index', [
+        return Inertia::render('Admin/Categories/Index', [
             'categories' => $categories,
         ]);
     }
@@ -31,7 +31,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/Categories/Create');
+        return Inertia::render('Admin/Categories/Create');
     }
 
     /**
@@ -57,7 +57,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return Inertia::render('admin/Categories/Show', [
+        return Inertia::render('Admin/Categories/Show', [
             'category' => $category,
         ]);
     }
@@ -67,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return Inertia::render('admin/Categories/Edit', [
+        return Inertia::render('Admin/Categories/Edit', [
             'category' => $category,
         ]);
     }

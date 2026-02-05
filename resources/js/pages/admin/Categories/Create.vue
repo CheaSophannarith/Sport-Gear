@@ -2,14 +2,15 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ArrowLeft } from 'lucide-vue-next';
 import { ref } from 'vue';
+import CategoryController from '@/actions/App/Http/Controllers/Admin/CategoryController';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,11 +19,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Categories',
-        href: '/admin/categories',
+        href: CategoryController.index.url(),
     },
     {
         title: 'Create',
-        href: '/admin/categories/create',
+        href: CategoryController.create.url(),
     },
 ];
 
@@ -51,7 +52,7 @@ const handleImageChange = (event: Event) => {
 };
 
 const submit = () => {
-    form.post('/admin/categories', {
+    form.post(CategoryController.store.url(), {
         forceFormData: true,
     });
 };
@@ -67,7 +68,7 @@ const submit = () => {
                     <div class="flex items-center justify-between">
                         <CardTitle>Create New Category</CardTitle>
                         <Button variant="outline" as-child>
-                            <Link :href="'/admin/categories'">
+                            <Link :href="CategoryController.index.url()">
                                 <ArrowLeft class="mr-2 h-4 w-4" />
                                 Back to Categories
                             </Link>
@@ -199,7 +200,7 @@ const submit = () => {
                         <!-- Form Actions -->
                         <div class="flex justify-end gap-4 border-t pt-4">
                             <Button variant="outline" type="button" as-child>
-                                <Link :href="'/admin/categories'">Cancel</Link>
+                                <Link :href="CategoryController.index.url()">Cancel</Link>
                             </Button>
                             <Button type="submit" :disabled="form.processing">
                                 {{ form.processing ? 'Creating...' : 'Create Category' }}

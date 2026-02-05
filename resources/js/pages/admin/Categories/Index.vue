@@ -117,9 +117,11 @@
                                         {{ category.sort_order }}
                                     </TableCell>
                                     <TableCell>
-                                        <Badge :variant="category.is_active ? 'default' : 'secondary'">
-                                            {{ category.is_active ? 'Active' : 'Inactive' }}
-                                        </Badge>
+                                        <div class="space-y-1">
+                                            <Badge :variant="category.is_active ? 'default' : 'secondary'">
+                                                {{ category.is_active ? 'Active' : 'Inactive' }}
+                                            </Badge>
+                                        </div>
                                     </TableCell>
                                     <TableCell class="text-right">
                                         <div class="flex justify-end gap-2">

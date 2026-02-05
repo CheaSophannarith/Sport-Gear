@@ -49,7 +49,7 @@
         description: props.category.description || '',
         image: null as File | null,
         sort_order: props.category.sort_order,
-        is_active: props.category.is_active,
+        is_active: Boolean(props.category.is_active),
     });
 
     const imagePreview = ref<string | null>(
@@ -70,12 +70,23 @@
     };
 
     const submit = () => {
-        form.post(CategoryController.update.url(props.category.id), {
+        form.transform((data) => {
+            const transformed: any = {
+                ...data,
+                _method: 'PUT',
+                is_active: data.is_active ? '1' : '0',
+            };
+
+            // Only include image if a new one was selected
+            if (!data.image) {
+                delete transformed.image;
+            }
+
+            return transformed;
+        }).post(CategoryController.update.url(props.category.id), {
             forceFormData: true,
-            preserveScroll: true,
-            // Laravel expects _method field for PUT request with form data
-            onBefore: () => {
-                (form as any)._method = 'PUT';
+            onSuccess: () => {
+                form.reset('image');
             },
         });
     };
@@ -154,7 +165,10 @@
 
                                 <!-- Is Active -->
                                 <div class="flex items-center space-x-2">
-                                    <Switch id="is_active" v-model:checked="form.is_active" />
+                                    <Switch
+                                        id="is_active"
+                                        v-model="form.is_active"
+                                    />
                                     <Label for="is_active">Active</Label>
                                 </div>
                             </div>

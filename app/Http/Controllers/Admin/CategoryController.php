@@ -21,6 +21,12 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->paginate(15);
 
+        // Ensure is_active is properly cast to boolean for Inertia
+        $categories->through(function ($category) {
+            $category->is_active = (bool) $category->is_active;
+            return $category;
+        });
+
         return Inertia::render('Admin/Categories/Index', [
             'categories' => $categories,
         ]);
@@ -67,6 +73,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        // Ensure is_active is properly cast to boolean for Inertia
+        $category->is_active = (bool) $category->is_active;
+
         return Inertia::render('Admin/Categories/Edit', [
             'category' => $category,
         ]);
@@ -86,6 +95,9 @@ class CategoryController extends Controller
                 Storage::disk('public')->delete($category->image);
             }
             $validated['image'] = $request->file('image')->store('categories', 'public');
+        } else {
+            // Remove image from validated data if no new image uploaded
+            unset($validated['image']);
         }
 
         $category->update($validated);

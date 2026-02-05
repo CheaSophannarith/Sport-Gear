@@ -52,7 +52,15 @@ class UpdateCategoryRequest extends FormRequest
             ]);
         }
 
-        if (!$this->has('is_active')) {
+        // Convert any value to boolean
+        if ($this->has('is_active')) {
+            $value = $this->input('is_active');
+            // Convert '1', 'true', 1, true to boolean true
+            // Convert '0', 'false', 0, false, null, '' to boolean false
+            $this->merge([
+                'is_active' => in_array($value, ['1', 1, 'true', true, 'on', 'yes'], true),
+            ]);
+        } else {
             $this->merge([
                 'is_active' => false,
             ]);

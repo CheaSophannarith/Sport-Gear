@@ -13,8 +13,6 @@
         DialogTrigger,
         DialogClose,
     } from '@/components/ui/dialog';
-    import AppLayout from '@/layouts/AppLayout.vue';
-    import { type BreadcrumbItem } from '@/types';
     import {
         Table,
         TableBody,
@@ -23,6 +21,8 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table';
+    import AppLayout from '@/layouts/AppLayout.vue';
+    import { type BreadcrumbItem } from '@/types';
 
     interface Category {
         id: number;

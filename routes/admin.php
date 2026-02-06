@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LeagueController;
 use App\Http\Controllers\Admin\ProductController;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
 
     // Product routes
     Route::resource('products', ProductController::class);
+
+    // Carousel routes
+    Route::resource('carousels', CarouselController::class);
 
     // Add more admin routes here
     // Route::resource('users', UserController::class);

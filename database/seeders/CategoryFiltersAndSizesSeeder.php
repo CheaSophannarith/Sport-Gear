@@ -131,6 +131,48 @@ class CategoryFiltersAndSizesSeeder extends Seeder
             $this->command->warn("! Jerseys category not found. Skipping.");
         }
 
+        // Goalkeeper Gloves Category
+        $gloves = Category::where('slug', 'goalkeeper-gloves')
+            ->orWhere('slug', 'gloves')
+            ->orWhere('name', 'LIKE', '%Gloves%')
+            ->first();
+
+        if ($gloves) {
+            // Clear existing filters and sizes
+            $gloves->categoryFilters()->delete();
+            $gloves->variantSizes()->delete();
+
+            // Add filters
+            CategoryFilter::create([
+                'category_id' => $gloves->id,
+                'filter_type' => 'brand',
+                'is_required' => true,
+                'sort_order' => 1,
+            ]);
+
+            // Add variant sizes (4 to 7)
+            $gloveSizes = [
+                ['value' => '4', 'label' => 'Size 4'],
+                ['value' => '5', 'label' => 'Size 5'],
+                ['value' => '6', 'label' => 'Size 6'],
+                ['value' => '7', 'label' => 'Size 7'],
+            ];
+
+            foreach ($gloveSizes as $index => $size) {
+                CategoryVariantSize::create([
+                    'category_id' => $gloves->id,
+                    'size_value' => $size['value'],
+                    'display_label' => $size['label'],
+                    'sort_order' => $index + 1,
+                    'is_active' => true,
+                ]);
+            }
+
+            $this->command->info("✓ Configured Goalkeeper Gloves category with filters and sizes");
+        } else {
+            $this->command->warn("! Goalkeeper Gloves category not found. Skipping.");
+        }
+
         $this->command->info("\n✅ Category filters and sizes seeder completed!");
         $this->command->info("You can now edit categories in the admin panel to modify filters and sizes.");
     }

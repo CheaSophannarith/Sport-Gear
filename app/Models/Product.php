@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
@@ -25,6 +24,10 @@ class Product extends Model implements HasMedia
         'is_featured',
         'is_active',
         'view_count',
+        'brand_id',
+        'league_id',
+        'team_id',
+        'surface_type_id',
     ];
 
     protected function casts(): array
@@ -121,35 +124,35 @@ class Product extends Model implements HasMedia
     }
 
     /**
-     * Get all brands associated with this product
+     * Get the brand this product belongs to
      */
-    public function brands(): BelongsToMany
+    public function brand(): BelongsTo
     {
-        return $this->belongsToMany(Brand::class);
+        return $this->belongsTo(Brand::class);
     }
 
     /**
-     * Get all leagues associated with this product
+     * Get the league this product belongs to
      */
-    public function leagues(): BelongsToMany
+    public function league(): BelongsTo
     {
-        return $this->belongsToMany(League::class);
+        return $this->belongsTo(League::class);
     }
 
     /**
-     * Get all teams associated with this product
+     * Get the team this product belongs to
      */
-    public function teams(): BelongsToMany
+    public function team(): BelongsTo
     {
-        return $this->belongsToMany(Team::class);
+        return $this->belongsTo(Team::class);
     }
 
     /**
-     * Get all surface types associated with this product
+     * Get the surface type this product belongs to
      */
-    public function surfaceTypes(): BelongsToMany
+    public function surfaceType(): BelongsTo
     {
-        return $this->belongsToMany(SurfaceType::class);
+        return $this->belongsTo(SurfaceType::class);
     }
 
     /**

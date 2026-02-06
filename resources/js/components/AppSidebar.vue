@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { Link } from '@inertiajs/vue3';
-    import { Award, BookOpen, Folder, Layers, LayoutGrid, Shield, Tags, Trophy } from 'lucide-vue-next';
+    import { Award, BookOpen, Folder, Layers, LayoutGrid, Package, Shield, Tags, Trophy } from 'lucide-vue-next';
     import NavFooter from '@/components/NavFooter.vue';
     import NavMain from '@/components/NavMain.vue';
     import NavUser from '@/components/NavUser.vue';
@@ -29,6 +29,11 @@
             title: 'Categories',
             href: '/admin/categories',
             icon: Tags,
+        },
+        {
+            title: 'Products',
+            href: '/admin/products',
+            icon: Package,
         },
         {
             title: 'Brands',

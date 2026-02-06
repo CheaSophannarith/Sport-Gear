@@ -23,6 +23,13 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->bigInteger('view_count')->default(0);
+
+            // Filter relationships (one-to-many)
+            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('league_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('surface_type_id')->nullable()->constrained('surface_types')->nullOnDelete();
+
             $table->timestamps();
 
             // Indexes
@@ -30,6 +37,10 @@ return new class extends Migration
             $table->index('category_id');
             $table->index(['is_featured', 'is_active']);
             $table->index('view_count');
+            $table->index('brand_id');
+            $table->index('league_id');
+            $table->index('team_id');
+            $table->index('surface_type_id');
         });
     }
 

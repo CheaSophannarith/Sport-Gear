@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LeagueController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SurfaceTypeController;
 use App\Http\Controllers\Admin\TeamController;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +30,10 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     // Surface Type routes
     Route::resource('surface-types', SurfaceTypeController::class);
 
+    // Product routes
+    Route::resource('products', ProductController::class);
+
     // Add more admin routes here
-    // Route::resource('products', ProductController::class);
     // Route::resource('users', UserController::class);
     // Route::resource('orders', OrderController::class);
 });

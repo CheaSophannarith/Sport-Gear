@@ -38,6 +38,17 @@ class UpdateCategoryRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
+
+            // Category filters
+            'filters' => 'nullable|array',
+            'filters.*.type' => 'required|string|in:brand,league,team,surface_type',
+            'filters.*.required' => 'boolean',
+            'filters.*.sort_order' => 'nullable|integer|min:0',
+
+            // Variant sizes
+            'variant_sizes' => 'nullable|array',
+            'variant_sizes.*.value' => 'required|string|max:50',
+            'variant_sizes.*.label' => 'required|string|max:100',
         ];
     }
 
@@ -64,6 +75,19 @@ class UpdateCategoryRequest extends FormRequest
             $this->merge([
                 'is_active' => false,
             ]);
+        }
+
+        // Convert filters.*.required to boolean
+        if ($this->has('filters') && is_array($this->input('filters'))) {
+            $filters = $this->input('filters');
+            foreach ($filters as $key => $filter) {
+                if (isset($filter['required'])) {
+                    $filters[$key]['required'] = in_array($filter['required'], ['1', 1, 'true', true, 'on', 'yes'], true);
+                } else {
+                    $filters[$key]['required'] = false;
+                }
+            }
+            $this->merge(['filters' => $filters]);
         }
     }
 

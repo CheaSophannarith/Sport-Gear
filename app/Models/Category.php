@@ -62,4 +62,12 @@ class Category extends Model implements HasMedia
     {
         return $this->hasMany(CategoryFilter::class);
     }
+
+    /**
+     * Get all variant sizes for this category
+     */
+    public function variantSizes(): HasMany
+    {
+        return $this->hasMany(CategoryVariantSize::class)->orderBy('sort_order');
+    }
 }

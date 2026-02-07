@@ -255,6 +255,7 @@ class ProductSeeder extends Seeder
         // Get leagues
         $premierLeague = League::where('slug', 'premier-league')->first();
         $laliga = League::where('slug', 'laliga')->first();
+        $bundesliga = League::where('slug', 'bundesliga')->first();
 
         $jerseys = [
             [
@@ -320,6 +321,13 @@ class ProductSeeder extends Seeder
                 'league' => $laliga,
                 'price' => 95.00,
             ],
+            [
+                'team_slug' => 'eintracht-frankfurt',
+                'folder' => 'The Red EFT',
+                'brand' => $nike,
+                'league' => $bundesliga,
+                'price' => 999.00,
+            ]
         ];
 
         foreach ($jerseys as $jerseyData) {

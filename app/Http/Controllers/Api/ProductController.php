@@ -160,4 +160,64 @@ class ProductController extends Controller
             ]),
         ]);
     }
+
+    public function details(Product $product): JsonResponse
+    {
+        if (!$product->is_active) {
+            return response()->json([
+                'message' => 'Product not found or inactive',
+                'data' => []
+            ], 404);
+        }
+
+        $product->load(['brand', 'league', 'team', 'surfaceType', 'variants', 'category']);
+
+        // Get similar products (same category, different product)
+        $similarProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->where('is_active', true)
+            ->inRandomOrder()
+            ->limit(8)
+            ->get()
+            ->map(fn($similarProduct) => [
+                'id' => $similarProduct->id,
+                'name' => $similarProduct->name,
+                'slug' => $similarProduct->slug,
+                'base_price' => $similarProduct->base_price,
+                'featured_image' => $similarProduct->getFirstMediaUrl('featured_image'),
+            ]);
+
+        return response()->json([
+            'id' => $product->id,
+            'name' => $product->name,
+            'slug' => $product->slug,
+            'description' => $product->description,
+            'base_price' => $product->base_price,
+            'is_featured' => $product->is_featured,
+            'brand' => $product->brand,
+            'league' => $product->league,
+            'team' => $product->team,
+            'surface_type' => $product->surfaceType,
+            'category' => [
+                'id' => $product->category->id,
+                'name' => $product->category->name,
+                'slug' => $product->category->slug,
+            ],
+            'featured_image' => $product->getFirstMediaUrl('featured_image'),
+            'gallery_images' => $product->getMedia('images')->map(fn($media) => [
+                'url' => $media->getUrl(),
+                'thumbnail_url' => $media->getUrl('thumb'),
+            ]),
+            'variants' => $product->variants->map(fn($variant) => [
+                'id' => $variant->id,
+                'sku' => $variant->sku,
+                'size' => $variant->size,
+                'price_adjustment' => $variant->price_adjustment,
+                'stock_quantity' => $variant->stock_quantity,
+                'is_active' => $variant->is_active,
+                'is_available' => $variant->stock_quantity > 0 && $variant->is_active,
+            ]),
+            'similar_products' => $similarProducts,
+        ]);
+    }
 }

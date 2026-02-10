@@ -22,6 +22,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::get('/products/{slug}/filters', [ProductController::class, 'getFilters'])->name('products.filters');
 
+    Route::get('/products-details/{product}', [ProductController::class, 'details'])->name('products.details');
+
     Route::group(['prefix' => 'filters', 'as' => 'filters.'], function () {
         Route::get('/brands', [FilterController::class, 'getBrands'])->name('brands');
         Route::get('/leagues', [FilterController::class, 'getLeagues'])->name('leagues');

@@ -54,6 +54,14 @@ class League extends Model implements HasMedia
     }
 
     /**
+     * Get all products for this league
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    /**
      * Get all teams in this league
      */
     public function teams(): HasMany

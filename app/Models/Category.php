@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Category extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    
+
     protected $fillable = [
         'name',
         'slug',
@@ -61,6 +61,14 @@ class Category extends Model implements HasMedia
     public function categoryFilters(): HasMany
     {
         return $this->hasMany(CategoryFilter::class);
+    }
+
+    /**
+     * Get all products for this category
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 
     /**

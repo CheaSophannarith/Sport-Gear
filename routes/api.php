@@ -17,6 +17,17 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     // Featured products by category
     Route::get('/products/featured/{slug}', [ProductController::class, 'featuredProducts'])->name('products.featured');
+
+    Route::get('/products/{slug}', [ProductController::class, 'allProducts'])->name('products.show');
+
+    Route::get('/products/{slug}/filters', [ProductController::class, 'getFilters'])->name('products.filters');
+
+    Route::group(['prefix' => 'filters', 'as' => 'filters.'], function () {
+        Route::get('/brands', [FilterController::class, 'getBrands'])->name('brands');
+        Route::get('/leagues', [FilterController::class, 'getLeagues'])->name('leagues');
+        Route::get('/surface-types', [FilterController::class, 'getSurfaceTypes'])->name('surface-types');
+        Route::get('/teams', [FilterController::class, 'getTeams'])->name('teams');
+    });
 });
 
 // API routes for admin panel (cascading filters, dynamic data)

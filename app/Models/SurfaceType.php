@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class SurfaceType extends Model
@@ -31,5 +32,13 @@ class SurfaceType extends Model
                 $surfaceType->slug = Str::slug($surfaceType->name);
             }
         });
+    }
+
+    /**
+     * Get all products for this surface type
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }

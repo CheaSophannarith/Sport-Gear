@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -59,5 +60,13 @@ class Team extends Model implements HasMedia
     public function league(): BelongsTo
     {
         return $this->belongsTo(League::class);
+    }
+
+    /**
+     * Get all products for this team
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }

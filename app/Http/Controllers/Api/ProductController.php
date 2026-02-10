@@ -72,6 +72,7 @@ class ProductController extends Controller
         $leagueId = request()->query('league_id');
         $surfaceTypeId = request()->query('surface_type_id');
         $teamId = request()->query('team_id');
+        $name = request()->query('name');
 
         // Apply filters
         if ($brandId) {
@@ -90,6 +91,10 @@ class ProductController extends Controller
             $query->where('team_id', $teamId);
         }
 
+        if ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+
         // Apply sorting
         $sortBy = request()->query('sort_by', 'created_at');
         $sortDir = request()->query('sort_dir', 'desc');
@@ -104,7 +109,7 @@ class ProductController extends Controller
             'league:id,name,slug',
             'team:id,name,slug,league_id',
             'surfaceType:id,name,slug,code',
-        ])->paginate(request()->query('per_page', 20))->withQueryString();
+        ])->paginate(request()->query('per_page', 21))->withQueryString();
 
         return response()->json([
             'data' => $products->through(fn($product) => [
